@@ -1,0 +1,21 @@
+<h2>Show item instance</h2>
+
+<ul>
+
+	<%= for {cat, fields} <- @map do %>
+		<h2><%= cat.name %></h2>
+		<ul>
+			<%= for field <- fields do %>
+				<h3><%= field.name %></h3> <br>
+				<%= for val <- field.field_values do %>
+					<%= val.value %> <br>
+				<% end %>
+			<% end %>
+		</ul>
+	<% end %>
+
+
+</ul>
+
+<%= link "Edit", to: item_instance_path(@conn, :edit, @item_instance) %>
+<%= link "Back", to: item_instance_path(@conn, :index) %>

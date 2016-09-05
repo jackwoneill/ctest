@@ -1,0 +1,25 @@
+<h2>Listing item instances</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for item_instance <- @item_instances do %>
+    <tr>
+      <td> <%= item_instance.item.name %> </td>
+
+      <td class="text-right">
+        <%= link "Show", to: item_instance_path(@conn, :show, item_instance), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: item_instance_path(@conn, :edit, item_instance), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: item_instance_path(@conn, :delete, item_instance), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New item instance", to: item_instance_path(@conn, :new) %>

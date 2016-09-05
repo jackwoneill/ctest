@@ -1,0 +1,40 @@
+<% {:ok, agent} = Agent.start_link(fn -> @counter end) %>
+
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+<%= for cat <- @categories do %>
+  <h3><%= cat.name %></h3>
+  <%= for field <- cat.fields do %>
+    <%= inputs_for f, :field_values, fn i -> %>
+     <% c = Agent.get(agent, fn c -> c end)%>
+
+      <div class="form-group">
+        <%= hidden_input i, :field_id, id: "item_instance_field_values_#{c}_field_id", name: "item_instance[field_values][#{c}][field_id]", value: field.id %>
+      </div>
+
+      <div class="form-group">
+        <%= label i, :value, field.name, class: "control-label", for: "item_instance_field_values_#{c}_value" %>
+        <%= text_input i, :value, class: "form-control", id: "item_instance_field_values_#{c}_value", name: "item_instance[field_values][#{c}][value]"  %>
+        <%= if message = i.errors[:value] do %>
+          <span class="help-block"><%= message %></span>
+        <% end %>
+        <% Agent.update(agent, fn c -> c + 1 end)%>
+
+
+      </div>
+    <%= end %>
+
+    <br>
+  <%= end %>
+<%= end %>
+
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>

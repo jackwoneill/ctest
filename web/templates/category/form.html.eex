@@ -1,0 +1,39 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= label f, "Item", class: "control-label" %>
+    <%= select f, :item_id, @items ,class: "form-control" %>
+    <%= error_tag f, :item_id %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :name, class: "control-label" %>
+    <%= text_input f, :name, class: "form-control" %>
+    <%= error_tag f, :name %>
+  </div>
+  <%= inputs_for f, :fields, fn i -> %>
+      <div class="form-group">
+        <%= label i, :name, "Field ##{i.index + 1} Name", class: "control-label" %>
+        <%= text_input i, :name, class: "form-control" %>
+        <%= if message = i.errors[:name] do %>
+          <span class="help-block"><%= message %></span>
+        <% end %>
+      </div>
+      <div class="form-group">
+        <%= label i, :type, "Field ##{i.index + 1} Type", class: "control-label" %>
+        <%= number_input i, :type, class: "form-control" %>
+        <%= if message = i.errors[:type] do %>
+          <span class="help-block"><%= message %></span>
+        <% end %>
+      </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>

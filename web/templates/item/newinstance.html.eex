@@ -1,0 +1,6 @@
+<h2>New item</h2>
+
+<%= render "instanceform.html", changeset: @changeset,
+                        action: item_instance_path(@conn, :create, item_id: @id), item: @item, categories: @categories, counter: @counter %>
+
+<%= link "Back", to: item_path(@conn, :index) %>
